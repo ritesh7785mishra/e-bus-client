@@ -20,7 +20,8 @@ function SignIn() {
   const { userLogin, getUserProfile } = useContext(Context);
 
   useEffect(() => {
-    if (localStorage.getItem("authToken")) {
+    let authToken = localStorage.getItem("authToken");
+    if (authToken) {
       getUserProfile();
       navigate("/home");
     }
@@ -50,7 +51,14 @@ function SignIn() {
     ) {
       navigate("/all-conductors");
     } else {
-      const res = await userLogin(loginData).then(() => navigate("/home"));
+      await userLogin(loginData).then(() => {
+        let authToken = localStorage.getItem("authToken");
+        if (authToken) {
+          navigate("/home");
+        } else {
+          alert("Not a valid user");
+        }
+      });
     }
   };
 

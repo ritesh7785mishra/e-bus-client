@@ -70,8 +70,15 @@ function ConductorLogin() {
           <button
             className="loginBtn"
             onClick={() => {
-              handleConductorLogin(conductorLogin);
-              navigate("/conductor");
+              handleConductorLogin(conductorLogin).then(() => {
+                let conductorAuthToken =
+                  localStorage.getItem("conductorAuthToken");
+                if (conductorAuthToken) {
+                  navigate("/conductor");
+                } else {
+                  alert("Not a valid conductor");
+                }
+              });
             }}
           >
             LOGIN

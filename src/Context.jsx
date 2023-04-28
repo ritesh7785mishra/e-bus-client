@@ -88,10 +88,14 @@ function ContextProvider({ children }) {
       const data = await res.json();
 
       if (data) {
-        localStorage.setItem("conductorAuthToken", data.conductorAuthToken);
-
-        if (localStorage.getItem("conductorAuthToken")) {
-          getConductorProfile();
+        if (data.success == true) {
+          localStorage.setItem("conductorAuthToken", data.conductorAuthToken);
+          let conductorAuthToken = localStorage.getItem("conductorAuthToken");
+          if (conductorAuthToken) {
+            getConductorProfile();
+          } else {
+            alert("Not a valid conductor");
+          }
         }
       }
 
@@ -111,7 +115,6 @@ function ContextProvider({ children }) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Headers": "*",
           },
           body: JSON.stringify({
             conductorAuthToken: localStorage.getItem("conductorAuthToken"),
@@ -188,11 +191,9 @@ function ContextProvider({ children }) {
         withCredentials: true,
       });
       const data = await res.json();
-      if (data) {
+      if (data.success == true) {
         localStorage.setItem("authToken", data.authToken);
-        localStorage.setItem("userEmail", loginData.email);
       }
-      return;
     } catch (error) {
       console.log(error);
       return;
