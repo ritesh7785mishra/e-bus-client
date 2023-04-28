@@ -16,7 +16,7 @@ function Home(props) {
   const navigate = useNavigate();
   const { currentUser, handleUserLogout, getUserProfile } = useContext(Context);
   const [currentRoute, setCurrentRoute] = useState("");
-
+  const [counter, setCounter] = useState(0);
   const { name } = currentUser;
 
   //Using useRef hook to get JS ability to add map to the react application because tom tom api doesn't work good with the react element.
@@ -24,9 +24,8 @@ function Home(props) {
   const [allLocationArray, setAllLocationArray] = useState([]);
 
   const [map, setMap] = useState({});
-  const [longitude, setLongitude] = useState(80);
-
-  const [latitude, setLatitude] = useState(27);
+  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState(0);
 
   const routeOptions = [
     "SanjeevNagar-Tatmil-Rawatpur-IIT",
@@ -48,7 +47,6 @@ function Home(props) {
       setLatitude(position.coords.latitude);
       setLongitude(position.coords.longitude);
     });
-
     //creates a map div. which is visible on the client side.
     let map = tt.map({
       key: apiKey,
@@ -66,6 +64,60 @@ function Home(props) {
 
     //setMap function sets up map state for the future use of the map.
     setMap(map);
+    //--------------------------------------------------------------------------------------------------------------------------//
+
+    const addDeliveryMarker = (lngLat, map) => {
+      const element = document.createElement("div");
+      element.className = "marker-delivery";
+      //make a new marker named element
+      let busMarker = new tt.Marker({
+        element: element,
+      })
+        .setLngLat(lngLat)
+        .addTo(map);
+
+      setTimeout(() => {
+        busMarker.remove();
+      }, 5100);
+    };
+
+    const locationObjArray = (locationData) => {
+      const newAllLocation = locationData.map((location) => {
+        let lngLat = location.currentLocation;
+        let lObj = {
+          lat: lngLat[1],
+          lng: lngLat[0],
+        };
+
+        addDeliveryMarker(lObj, map);
+      });
+      // setAllLocationArray(newAllLocation);
+    };
+
+    // allLocationArray.map((location) => {
+    //   const lObj = {
+    //     lat: location[1],
+    //     lng: location[0],
+    //   };
+    //   addDeliveryMarker(lObj, map);
+    // });
+
+    async function fetchLocations() {
+      const res = await fetch(`http://localhost:3000/user/all-buses`);
+      const data = await res.json();
+
+      if (data) {
+        console.log("Fetch location of all buses ran");
+        const allLocationData = data.data;
+        locationObjArray(allLocationData);
+      }
+    }
+
+    // fetchLocations();
+
+    let interval = setInterval(fetchLocations, 5000);
+
+    //-------------------------------------------------------------------------------------------------------------------------//
 
     //this is the origin location I think
     const addUserCurrentPosition = () => {
@@ -100,44 +152,62 @@ function Home(props) {
       marker.setPopup(popup).togglePopup();
     };
     addUserCurrentPosition(); // add marker called to set the origin position.
-    return () => map.remove();
-  }, [longitude, latitude, currentRoute]);
-
-  const locationObjArray = (locationData) => {
-    const newAllLocation = locationData.map(
-      (location) => location.currentLocation
-    );
-    setAllLocationArray(newAllLocation);
-  };
-
-  allLocationArray.map((location) => {
-    const lObj = {
-      lat: location[1],
-      lng: location[0],
+    return () => {
+      clearInterval(interval);
+      map.remove();
     };
-    addDeliveryMarker(lObj, map);
-  });
+  }, [counter, longitude, latitude]);
 
-  async function fetchLocations() {
-    const res = await fetch(`http://localhost:3000/user/all-buses`);
-    const data = await res.json();
+  // let currentMarkers = [];
+  // const addDeliveryMarker = (lngLat, map) => {
+  //   const element = document.createElement("div");
+  //   element.className = "marker-delivery";
+  //   //make a new marker named element
+  //   let busMarker = new tt.Marker({
+  //     element: element,
+  //   })
+  //     .setLngLat(lngLat)
+  //     .addTo(map);
 
-    if (data) {
-      const allLocationData = data.data;
-      locationObjArray(allLocationData);
-    }
-  }
+  //   setTimeout(() => {
+  //     busMarker.remove();
+  //   }, 19900);
+  // };
 
-  const addDeliveryMarker = (lngLat, map) => {
-    const element = document.createElement("div");
-    element.className = "marker-delivery";
-    //make a new marker named element
-    busM = new tt.Marker({
-      element: element,
-    })
-      .setLngLat(lngLat)
-      .addTo(map);
-  };
+  // const locationObjArray = (locationData) => {
+  //   const newAllLocation = locationData.map(
+  //     (location) => location.currentLocation
+  //   );
+  //   setAllLocationArray(newAllLocation);
+  // };
+
+  // allLocationArray.map((location) => {
+  //   const lObj = {
+  //     lat: location[1],
+  //     lng: location[0],
+  //   };
+  //   addDeliveryMarker(lObj, map);
+  // });
+
+  // async function fetchLocations() {
+  //   const res = await fetch(`http://localhost:3000/user/all-buses`);
+  //   const data = await res.json();
+
+  //   if (data) {
+  //     const allLocationData = data.data;
+  //     locationObjArray(allLocationData);
+  //   }
+  // }
+
+  // const removeAllMarkers = (map) => {
+  //   currentMarkers.forEach((marker) => marker.remove());
+  //   console.log(
+  //     "Current markers after remove function array ran but before removing them from array",
+  //     currentMarkers
+  //   );
+  //   currentMarkers = [];
+  //   console.log("After removing markers ", currentMarkers);
+  // };
 
   const fetchSelectedRouteBuses = async (route) => {
     try {
@@ -202,9 +272,22 @@ function Home(props) {
         />
       </div>
 
-      <Button onClick={() => fetchLocations()}>get current location</Button>
+      <Button
+        onClick={() => {
+          fetchLocations();
+          setCounter((preVal) => preVal + 1);
+        }}
+      >
+        Show All Buses
+      </Button>
 
-      <Button>Show All Buses</Button>
+      <Button
+        onClick={() => {
+          removeAllMarkers();
+        }}
+      >
+        Remove all buses
+      </Button>
 
       <div ref={mapElement} className="busMap" />
       <Button
