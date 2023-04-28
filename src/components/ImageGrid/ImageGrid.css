@@ -1,0 +1,35 @@
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(auto, 200px);
+  /* border: solid green 2px; */
+  width: 500px;
+  height: 500px;
+
+  overflow: hidden;
+}
+.imageGrid > img {
+  width: 100%;
+  border-radius: 10px;
+  min-width: 4em;
+  object-fit: cover;
+}
+
+.vertical,
+.horizontal,
+.big {
+  border-radius: 6px;
+}
+
+.vertical {
+  grid-row: span 2;
+}
+
+.horizontal {
+  grid-column: span 2;
+}
+
+.big {
+  grid-row: span 2;
+  grid-column: span 2;
+}
