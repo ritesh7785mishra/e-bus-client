@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import AbortController from "abort-controller";
+import { baseServerUrl } from "./util";
 
 const Context = React.createContext();
 
@@ -18,7 +19,7 @@ function ContextProvider({ children }) {
   //will be used for fetching all the conductors for the admin
   const fetchConductors = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/admin`);
+      const res = await fetch(`${baseServerUrl}/admin`);
       const data = await res.json();
       if (data) {
         let newAllConductor = [...data.data];
@@ -34,7 +35,7 @@ function ContextProvider({ children }) {
   //delete conductor from the database
   const handleConductorDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3000/admin/${id}`, {
+      const res = await fetch(`${baseServerUrl}/admin/${id}`, {
         method: "DELETE",
       });
       const data = await res.json();
@@ -54,7 +55,7 @@ function ContextProvider({ children }) {
   //add conductor to the database
   const handleAddConductor = async (dataObj) => {
     try {
-      const res = await fetch(`http://localhost:3000/admin`, {
+      const res = await fetch(`${baseServerUrl}/admin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataObj),
@@ -76,14 +77,11 @@ function ContextProvider({ children }) {
   //conductorLogin
   const handleConductorLogin = async (dataObj) => {
     try {
-      const res = await fetch(
-        `http://localhost:3000/conductor/conductor-login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dataObj),
-        }
-      );
+      const res = await fetch(`${baseServerUrl}/conductor/conductor-login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataObj),
+      });
 
       const data = await res.json();
 
@@ -109,18 +107,15 @@ function ContextProvider({ children }) {
   //conductorProfile
   const getConductorProfile = async () => {
     try {
-      const res = await fetch(
-        `http://localhost:3000/conductor/conductor-profile`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            conductorAuthToken: localStorage.getItem("conductorAuthToken"),
-          }),
-        }
-      );
+      const res = await fetch(`${baseServerUrl}/conductor/conductor-profile`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          conductorAuthToken: localStorage.getItem("conductorAuthToken"),
+        }),
+      });
       const data = await res.json();
       if (data) {
         console.log("This is condutor data", data);
@@ -135,7 +130,7 @@ function ContextProvider({ children }) {
   //will add user to the userModel
   const postUser = async (userData) => {
     try {
-      const res = await fetch(`http://localhost:3000/user/user-signup`, {
+      const res = await fetch(`${baseServerUrl}/user/user-signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
@@ -162,7 +157,7 @@ function ContextProvider({ children }) {
         "This is localstorage getItem authToken in the frontend",
         authToken
       );
-      const res = await fetch(`http://localhost:3000/user/user-profile`, {
+      const res = await fetch(`${baseServerUrl}/user/user-profile`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -184,7 +179,7 @@ function ContextProvider({ children }) {
   //get user from the database
   const userLogin = async (loginData) => {
     try {
-      const res = await fetch(`http://localhost:3000/user/user-login`, {
+      const res = await fetch(`${baseServerUrl}/user/user-login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginData),

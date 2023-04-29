@@ -9,7 +9,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import DepartureBoardIcon from "@mui/icons-material/DepartureBoard";
 import companyLogo from "../../assets/company-logo.jpg";
 import { AccountCircleOutlined } from "@mui/icons-material";
-import { apiKey } from "../../util";
+import { apiKey, baseServerUrl } from "../../util";
 import { Context } from "../../Context";
 
 function Home(props) {
@@ -103,7 +103,7 @@ function Home(props) {
     // });
 
     async function fetchLocations() {
-      const res = await fetch(`http://localhost:3000/user/all-buses`);
+      const res = await fetch(`${baseServerUrl}/user/all-buses`);
       const data = await res.json();
 
       if (data) {
@@ -211,16 +211,13 @@ function Home(props) {
 
   const fetchSelectedRouteBuses = async (route) => {
     try {
-      const res = await fetch(
-        `http://localhost:3000/user/route-selected-buses`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            route: route,
-          }),
-        }
-      );
+      const res = await fetch(`${baseServerUrl}/user/route-selected-buses`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          route: route,
+        }),
+      });
 
       const data = await res.json();
 
