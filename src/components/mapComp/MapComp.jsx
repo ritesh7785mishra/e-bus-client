@@ -58,7 +58,7 @@ const MapComp = () => {
       ref={mapElement}
       className="shadow"
       style={{
-        width: "350px",
+        width: "95%",
       }}
     ></div>
   );

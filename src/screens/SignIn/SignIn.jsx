@@ -184,6 +184,7 @@ function SignIn() {
     <div
       style={{
         display: "flex",
+        margin: 0,
       }}
     >
       {/* <ImageGrid></ImageGrid> */}

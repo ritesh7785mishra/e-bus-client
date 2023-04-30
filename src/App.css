@@ -1,22 +1,20 @@
 body {
   box-shadow: 3px 6px 32px 0px rgba(136, 136, 136, 0.39);
-  padding: 0.5rem;
-  border-radius: 20px;
 }
 
 .formBox {
   box-shadow: 3px 6px 32px 0px rgba(136, 136, 136, 0.39);
-  padding: 2em;
-  border-radius: 20px;
-  max-width: 20em;
-  margin: 1em auto;
+  padding: 1em;
+  border-radius: 8px;
+  width: 84vw;
+  margin: 1em 0;
 }
 
 .shadow {
   box-shadow: 3px 6px 32px 0px rgba(136, 136, 136, 0.39);
-  border-radius: 20px;
+  border-radius: 8px;
   padding: 1em;
-  margin: 1rem;
+  margin: 0;
 }
 
 img {

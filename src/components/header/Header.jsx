@@ -11,8 +11,8 @@ const Header = () => {
       justifyContent="space-between"
       alignItems="center"
       sx={{
-        borderRadius: "15px",
-        margin: "1em",
+        borderRadius: "8px",
+        margin: "0",
         boxShadow: "3px 6px 32px 0px rgba(136, 136, 136, 0.39)",
       }}
     >

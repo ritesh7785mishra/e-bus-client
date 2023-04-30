@@ -13,12 +13,11 @@ const Footer = () => {
   return (
     <Stack
       direction="column"
-      //   sx={{
-      //     borderRadius: "15px",
-      //     margin: "1em",
-      //     boxShadow: "3px 6px 32px 0px rgba(136, 136, 136, 0.39)",
-      //     padding: "0.5em",
-      //   }}
+      sx={{
+        borderRadius: "8px",
+        margin: "0",
+        boxShadow: "3px 6px 32px 0px rgba(136, 136, 136, 0.39)",
+      }}
       className="shadow"
     >
       <Stack
@@ -32,13 +31,19 @@ const Footer = () => {
         </div>
 
         <Stack
-          spacing={3}
+          spacing={5}
           direction={{ sm: "column", md: "row" }}
           alignItems="center"
         >
           <div> "All Rights Reserved."</div>
 
-          <Stack spacing={2} direction="row">
+          <Stack
+            spacing={6}
+            direction="row"
+            sx={{
+              m: 2,
+            }}
+          >
             <WhatsAppIcon />
             <LinkedInIcon />
             <InstagramIcon />
