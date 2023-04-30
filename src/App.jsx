@@ -12,6 +12,7 @@ import SignUp from "./screens/SignUp/SignUp";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import busImg from "./assets/bus-home.jpg";
+import NotFoundPage from "./screens/NotFoundPage/NotFoundPage";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route exact path="/conductor-login" element={<ConductorLogin />} />
             <Route exact path="/conductor" element={<Conductor />} />
             <Route exact path="/all-conductors" element={<AllConductors />} />
+            <Route path="/*" element={<NotFoundPage />} />
           </Routes>
         </Router>
       </Stack>
