@@ -11,7 +11,6 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 
 import { Context } from "../../Context";
-import { baseServerUrl } from "../../util";
 
 function Conductor() {
   const navigate = useNavigate();
@@ -32,6 +31,7 @@ function Conductor() {
 
   console.log(currentRoute);
 
+  const { VITE_baseServerUrl } = import.meta.env;
   const routeOptions = [
     "SanjeevNagar-Tatmil-Rawatpur-IIT",
     "IIT-Rawatpur-Tatmil-SanjeevNagar",
@@ -66,7 +66,7 @@ function Conductor() {
         let { latitude } = position.coords;
         let { longitude } = position.coords;
 
-        fetch(`${baseServerUrl}/conductor/update-location`, {
+        fetch(`${VITE_baseServerUrl}/conductor/update-location`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -94,14 +94,17 @@ function Conductor() {
   }, [shareLocationBtn, stopLocationBtn]);
 
   const updateSeatStatus = async (seatStatus) => {
-    const res = await fetch(`${baseServerUrl}/conductor/update-seat-status`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        seatStatus: seatStatus,
-        id: currentConductor.id,
-      }),
-    });
+    const res = await fetch(
+      `${VITE_baseServerUrl}/conductor/update-seat-status`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          seatStatus: seatStatus,
+          id: currentConductor.id,
+        }),
+      }
+    );
 
     const data = await res.json();
     console.log("This is Seat status update function", data);
@@ -110,7 +113,7 @@ function Conductor() {
   const updateCurrentRoute = async (currentRoute) => {
     try {
       const res = await fetch(
-        `${baseServerUrl}/conductor/update-current-route`,
+        `${VITE_baseServerUrl}/conductor/update-current-route`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },

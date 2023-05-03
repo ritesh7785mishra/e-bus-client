@@ -18,7 +18,7 @@ function Home(props) {
   const [currentRoute, setCurrentRoute] = useState("");
   const [counter, setCounter] = useState(0);
   const { name } = currentUser;
-  const { VITE_apiKey } = import.meta.env;
+  const { VITE_apiKey, VITE_baseServerUrl } = import.meta.env;
 
   //Using useRef hook to get JS ability to add map to the react application because tom tom api doesn't work good with the react element.
   const mapElement = useRef();
@@ -104,7 +104,7 @@ function Home(props) {
     // });
 
     async function fetchLocations() {
-      const res = await fetch(`${baseServerUrl}/user/all-buses`);
+      const res = await fetch(`${VITE_baseServerUrl}/user/all-buses`);
       const data = await res.json();
 
       if (data) {
@@ -212,13 +212,16 @@ function Home(props) {
 
   const fetchSelectedRouteBuses = async (route) => {
     try {
-      const res = await fetch(`${baseServerUrl}/user/route-selected-buses`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          route: route,
-        }),
-      });
+      const res = await fetch(
+        `${VITE_baseServerUrl}/user/route-selected-buses`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            route: route,
+          }),
+        }
+      );
 
       const data = await res.json();
 
