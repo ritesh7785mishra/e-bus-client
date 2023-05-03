@@ -17,11 +17,6 @@ import NotFoundPage from "./screens/NotFoundPage/NotFoundPage";
 function App() {
   return (
     <div className="App">
-      <ul>
-        <li>{import.meta.env.VITE_baseServerUrl}</li>
-        <li>{import.meta.env.VITE_apiKey}</li>
-        <li>{import.meta.env.VITE_adminKey}</li>
-      </ul>
       <Header />
       <Stack
         direction="row"
