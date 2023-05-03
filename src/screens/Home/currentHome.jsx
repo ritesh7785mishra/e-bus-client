@@ -18,7 +18,7 @@ function Home(props) {
   const [currentRoute, setCurrentRoute] = useState("");
 
   const { name } = currentUser;
-  const { VITE_VITE_apiKey } = import.meta.env;
+  const { VITE_apiKey } = import.meta.env;
   //Using useRef hook to get JS ability to add map to the react application because tom tom api doesn't work good with the react element.
   const mapElement = useRef();
   const [allLocationArray, setAllLocationArray] = useState([]);
