@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./MapComp.css";
-import { apiKey } from "../../util";
+// import { VITE_apiKey } from "../../util";
 import * as tt from "@tomtom-international/web-sdk-maps";
 // import * as ttapi from "@tomtom-international/web-sdk-services";
 import "@tomtom-international/web-sdk-maps/dist/maps.css";
@@ -11,6 +11,7 @@ const MapComp = () => {
   const [longitude, setLongitude] = useState(80);
 
   const [latitude, setLatitude] = useState(27);
+  const { VITE_apiKey } = import.meta.env;
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -19,7 +20,7 @@ const MapComp = () => {
     });
 
     let map = tt.map({
-      key: apiKey,
+      key: VITE_apiKey,
       container: mapElement.current,
       center: [longitude, latitude],
       zoom: 14,

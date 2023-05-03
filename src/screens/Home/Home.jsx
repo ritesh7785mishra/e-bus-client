@@ -9,7 +9,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import DepartureBoardIcon from "@mui/icons-material/DepartureBoard";
 import companyLogo from "../../assets/company-logo.jpg";
 import { AccountCircleOutlined } from "@mui/icons-material";
-import { apiKey, baseServerUrl } from "../../util";
+// import { VITE_apiKey, baseServerUrl } from "../../util";
 import { Context } from "../../Context";
 
 function Home(props) {
@@ -18,6 +18,7 @@ function Home(props) {
   const [currentRoute, setCurrentRoute] = useState("");
   const [counter, setCounter] = useState(0);
   const { name } = currentUser;
+  const { VITE_VITE_apiKey } = import.meta.env;
 
   //Using useRef hook to get JS ability to add map to the react application because tom tom api doesn't work good with the react element.
   const mapElement = useRef();
@@ -49,7 +50,7 @@ function Home(props) {
     });
     //creates a map div. which is visible on the client side.
     let map = tt.map({
-      key: apiKey,
+      key: VITE_apiKey,
       container: mapElement.current,
 
       //sets up what are the items you need to see on the map.
